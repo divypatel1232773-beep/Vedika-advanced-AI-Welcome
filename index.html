@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Welcome to Vedika AI Suite</title>
     
-    <!-- Smart Memory Redirect: Executes instantly before page loads -->
+    <!-- Smart Memory Redirect: Executes ONLY if user explicitly clicked the "Skip" button -->
     <script>
-        if(localStorage.getItem('vedika_user_active') === 'true') {
+        if(localStorage.getItem('vedika_skip_welcome') === 'true') {
             window.location.replace("https://divypatel1232773-beep.github.io/We/");
         }
     </script>
@@ -24,7 +24,6 @@
             --text-main: #111111;
             --text-muted: #666666;
             --accent-blue: #007AFF;
-            --accent-purple: #5856D6;
             --font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
@@ -76,15 +75,15 @@
         h1 { font-size: 2.6rem; margin: 0 0 16px 0; font-weight: 800; color: var(--text-main); letter-spacing: -1px; line-height: 1.1; }
         p.description { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 35px; line-height: 1.6; }
 
-        /* Step 2: 6-Image Seamless Mosaic & Features */
+        /* Step 2: 6-Image Mosaic & Features */
         .showcase-header { font-size: 1.8rem; margin-bottom: 15px; color: var(--text-main); font-weight: 800; }
         
         .feature-list { text-align: left; background: rgba(0, 122, 255, 0.05); border: 1px solid rgba(0, 122, 255, 0.1); padding: 15px 20px; border-radius: 16px; margin-bottom: 20px; width: 100%; box-sizing: border-box;}
         .feature-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; font-size: 0.95rem; font-weight: 600; color: var(--text-main); line-height: 1.4;}
         .feature-item:last-child { margin-bottom: 0; }
-        .feature-item i { color: var(--theme-color); font-size: 1.3rem; margin-top: 2px;}
+        .feature-item i { color: var(--accent-blue); font-size: 1.3rem; margin-top: 2px;}
 
-        /* Updated Mosaic: 6 Images (3 columns, 2 rows) */
+        /* 6 Images Mosaic */
         .seamless-mosaic {
             display: flex; flex-wrap: wrap; width: 100%; height: 220px;
             border-radius: 16px; overflow: hidden; margin-bottom: 25px;
@@ -92,33 +91,20 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.1);
         }
         .mosaic-img {
-            flex: 1 1 33.33%; 
-            height: 50%;      
-            object-fit: cover;
+            flex: 1 1 33.33%; height: 50%; object-fit: cover;
             transition: transform 0.4s ease, filter 0.4s ease;
             filter: grayscale(10%) brightness(0.95);
         }
-        .mosaic-img:hover {
-            transform: scale(1.15); filter: grayscale(0%) brightness(1.1);
-            z-index: 5; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
+        .mosaic-img:hover { transform: scale(1.15); filter: grayscale(0%) brightness(1.1); z-index: 5; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
 
-        /* Buttons row for Step 2 */
-        .action-row { display: flex; gap: 15px; width: 100%; justify-content: center; flex-wrap: wrap; }
-
-        /* Step 3: Big Popup Style Live Demo */
+        /* Step 3: Chat Box */
         .demo-popup-container {
-            width: 100%; max-width: 600px; 
-            margin: 0 auto 20px auto;
+            width: 100%; max-width: 600px; margin: 0 auto 20px auto;
             background: #ffffff; border: 1px solid rgba(0,0,0,0.1); border-radius: 24px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.15); display: flex; flex-direction: column;
             overflow: hidden; text-align: left;
         }
-        
-        .demo-header {
-            background: rgba(0, 122, 255, 0.05); padding: 12px 16px;
-            border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; gap: 10px;
-        }
+        .demo-header { background: rgba(0, 122, 255, 0.05); padding: 12px 16px; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; gap: 10px; }
         .demo-header img { width: 30px; height: 30px; border-radius: 8px; }
         .demo-header span { font-weight: 700; font-size: 0.95rem; color: var(--text-main); }
         .demo-badge { margin-left: auto; background: var(--accent-blue); color: #fff; font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: bold; }
@@ -131,10 +117,9 @@
         .bot-msg { background: #ffffff; color: var(--text-main); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
         .user-msg { background: var(--accent-blue); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 5px 15px rgba(0,122,255,0.2);}
 
-        /* Reasoning Block inside bot message */
         .reasoning { margin-bottom: 8px; border: 1px solid rgba(0,0,0,0.1); border-radius: 10px; background: #F8F8F8; }
         .reasoning summary { padding: 8px 12px; font-size: 0.8rem; color: var(--text-muted); cursor: pointer; outline: none; user-select: none; font-weight: 700; background: rgba(0, 0, 0, 0.03); border-radius: 10px; display: flex; align-items: center; gap: 6px; }
-        .reasoning[open] summary { border-radius: 10px 10px 0 0; border-bottom: 1px solid rgba(0,0,0,0.1); color: var(--theme-color); }
+        .reasoning[open] summary { border-radius: 10px 10px 0 0; border-bottom: 1px solid rgba(0,0,0,0.1); color: var(--accent-blue); }
         .reasoning-content { padding: 10px; font-size: 0.8rem; color: #555; white-space: pre-wrap; }
         .answer-content { margin-top: 5px; }
 
@@ -143,38 +128,41 @@
         .chat-input:focus { border-color: var(--accent-blue); background: #fff;}
         .send-btn { background: var(--accent-blue); color: #fff; border: none; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
         .send-btn:hover { background: #006ae6; transform: scale(1.05); }
-        .send-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+        .send-btn:disabled { background: #ccc; cursor: not-allowed; }
 
-        /* Login Portal (Appears after 5 questions) */
+        /* Login Portal Area */
         .auth-container {
             width: 100%; max-width: 600px; margin: 0 auto;
             background: rgba(0, 122, 255, 0.05); border: 1px solid rgba(0, 122, 255, 0.2);
-            padding: 20px 20px; border-radius: 20px; box-sizing: border-box;
+            padding: 20px; border-radius: 20px; box-sizing: border-box;
             display: none; animation: slideUpFade 0.5s ease forwards;
         }
         @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Buttons & Links */
+        /* Action Buttons Row */
+        .action-row { display: flex; gap: 10px; width: 100%; justify-content: center; flex-wrap: wrap; margin-top: 15px;}
+        
         .btn-main {
-            display: inline-flex; align-items: center; justify-content: center; gap: 12px;
-            background: var(--accent-blue); color: #ffffff; border: none; padding: 16px 30px; border-radius: 30px;
-            font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;
-            box-shadow: 0 10px 25px rgba(0, 122, 255, 0.3); text-decoration: none; flex: 1; min-width: 220px; box-sizing: border-box;
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            background: var(--accent-blue); color: #ffffff; border: none; padding: 14px 24px; border-radius: 30px;
+            font-size: 1.05rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0, 122, 255, 0.3); text-decoration: none; flex: 1; min-width: 200px; box-sizing: border-box;
         }
-        .btn-main i { font-size: 1.3rem; transition: transform 0.3s ease; }
         .btn-main:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0, 122, 255, 0.4); background: #006ae6;}
 
-        .btn-outline { background: #ffffff; color: var(--text-main); border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .btn-outline:hover { background: #f8f8f8; box-shadow: 0 10px 25px rgba(0,0,0,0.1); color: var(--accent-blue);}
+        /* Explicit "Skip Welcome" Button Style */
+        .btn-skip {
+            background: #ffffff; color: var(--text-main); border: 1px solid rgba(0,0,0,0.15); box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .btn-skip:hover { background: #f8f8f8; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.3);}
 
         .legal-link {
             display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none;
             font-size: 0.85rem; font-weight: 500; transition: all 0.2s ease; padding: 8px 15px;
             border-radius: 12px; background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); margin-top: 15px;
         }
-        .legal-link:hover { color: #007AFF; background: #ffffff; border-color: rgba(0,0,0,0.1); box-shadow: 0 5px 15px rgba(0,0,0,0.05);}
+        .legal-link:hover { color: #007AFF; background: #ffffff; border-color: rgba(0,0,0,0.1);}
 
-        /* Vedika Logo Pulse Animation for Processing */
         @keyframes logoPulse { 0% { transform: scale(0.9); opacity: 0.7; } 50% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(0.9); opacity: 0.7; } }
         
         @media (max-width: 600px) {
@@ -182,7 +170,7 @@
             h1 { font-size: 2.2rem; }
             .showcase-header { font-size: 1.5rem; }
             .seamless-mosaic { height: 160px; }
-            .btn-main { padding: 15px 20px; font-size: 1rem; min-width: 100%; }
+            .btn-main { padding: 14px 18px; font-size: 0.95rem; min-width: 100%; }
             .chat-box { height: 280px; }
         }
     </style>
@@ -205,8 +193,7 @@
             <h1>Vedika AI Suite</h1>
             <p class="description">Experience the next generation of virtual intelligence. Unmatched multimodal capabilities designed for a brilliant future.</p>
             
-            <!-- Smart Action: Saves to local storage before redirecting -->
-            <button class="btn-main" onclick="proceedToMainApp()" style="max-width: 300px;">
+            <button class="btn-main" onclick="goToStep(2)" style="max-width: 300px;">
                 Proceed <i class="ph-bold ph-arrow-right"></i>
             </button>
             <br>
@@ -215,7 +202,7 @@
             </a>
         </div>
 
-        <!-- STEP 2: 6-IMAGE MOSAIC, FEATURES & DUAL BUTTONS -->
+        <!-- STEP 2: SHOWCASE & DUAL LOGIN BUTTONS -->
         <div class="view-step" id="step2">
             <h1 class="showcase-header">Limitless Capabilities</h1>
             
@@ -239,18 +226,21 @@
                 <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=400&q=80" class="mosaic-img" alt="Virtual 6">
             </div>
 
-            <!-- Action Row: Direct Login OR Demo Widget -->
+            <!-- THE 3 BUTTONS: Normal Login, Skip Welcome Login, and Trial Widget -->
             <div class="action-row">
-                <button class="btn-main" onclick="proceedToMainApp()">
+                <button class="btn-main" onclick="goToStep(3)" style="background: #333;">
+                    Try Demo Widget <i class="ph-bold ph-chat-circle-text"></i>
+                </button>
+                <button class="btn-main" onclick="normalLogin()">
                     Get Started <i class="ph-bold ph-rocket"></i>
                 </button>
-                <button class="btn-main btn-outline" onclick="goToStep(3)">
-                    Try Demo Widget <i class="ph-bold ph-chat-circle-text"></i>
+                <button class="btn-main btn-skip" onclick="permanentLogin()">
+                    Skip Welcome in Future <i class="ph-bold ph-eye-slash"></i>
                 </button>
             </div>
         </div>
 
-        <!-- STEP 3: BIG POPUP WIDGET DEMO & LOGIN -->
+        <!-- STEP 3: DEMO WIDGET (5 QUESTIONS) & FINAL LOGIN -->
         <div class="view-step" id="step3">
             <h1 class="showcase-header" style="font-size:1.6rem; margin-bottom:10px;">Quick Preview</h1>
             
@@ -276,9 +266,14 @@
                 <div style="font-size: 1.05rem; font-weight: 800; color: var(--text-main); margin-bottom: 5px;">Demo Limit Reached</div>
                 <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Unlock all capabilities in your personalized workspace.</div>
                 
-                <button class="btn-main" onclick="proceedToMainApp()" style="margin: 0 auto; padding: 12px 30px; font-size: 0.95rem;">
-                    Login to get started <i class="ph-bold ph-sign-in"></i>
-                </button>
+                <div class="action-row" style="margin-top: 5px;">
+                    <button class="btn-main" onclick="normalLogin()">
+                        Login to App <i class="ph-bold ph-sign-in"></i>
+                    </button>
+                    <button class="btn-main btn-skip" onclick="permanentLogin()">
+                        Login & Skip Welcome Forever <i class="ph-bold ph-eye-slash"></i>
+                    </button>
+                </div>
             </div>
 
         </div>
@@ -286,13 +281,19 @@
     </div>
 
     <script>
-        // Core Logic: Proceed to Main App & Set Cache
-        function proceedToMainApp() {
-            localStorage.setItem('vedika_user_active', 'true');
+        // --- 1. LOGIN LOGIC ---
+        // Normal Login: Goes to main app, but does NOT disable welcome page next time.
+        function normalLogin() {
+            window.location.href = "https://divypatel1232773-beep.github.io/We/";
+        }
+        
+        // Permanent Login: Sets cache so the user NEVER sees the welcome page again.
+        function permanentLogin() {
+            localStorage.setItem('vedika_skip_welcome', 'true');
             window.location.href = "https://divypatel1232773-beep.github.io/We/";
         }
 
-        // View Transitions
+        // --- 2. STEP NAVIGATION ---
         function goToStep(stepNumber) {
             const currentStep = document.querySelector('.view-step.active');
             if(currentStep) {
@@ -306,7 +307,7 @@
             }, 400); 
         }
 
-        // Variables & Storage Recovery
+        // --- 3. CHAT DEMO LOGIC ---
         const MAX_QUESTIONS = 5;
         const API_URL = "https://mikeee-qwen-7b-chat.hf.space/v1/chat/completions";
         let questionsAsked = parseInt(localStorage.getItem('vedika_demo_q_count') || '0');
@@ -318,7 +319,6 @@ PART 2: When your reasoning is 100% complete, you MUST output the exact divider 
 CRITICAL RULE FOR IMAGES: If the user asks you to generate, create, or draw an image, DO NOT write any URLs or markdown image links. Instead, simply write EXACTLY [GENERATE_IMAGE: <a highly detailed visual description in english>] inside your final answer.
 Be concise. Do not address the user by name in demo mode.`;
 
-        // Initialize Chat from Local Storage
         window.onload = () => {
             const chatBox = document.getElementById('chatBox');
             chatBox.innerHTML = ''; 
@@ -329,7 +329,6 @@ Be concise. Do not address the user by name in demo mode.`;
             if (chatHistory.length === 0) {
                 chatHistory.push({ role: "system", content: baseSystemRule });
             } else {
-                // Re-render past messages
                 chatHistory.forEach(msg => {
                     if (msg.role === 'user') {
                         chatBox.innerHTML += `<div class="msg-bubble user-msg">${msg.content}</div>`;
@@ -350,7 +349,6 @@ Be concise. Do not address the user by name in demo mode.`;
             setTimeout(() => chatBox.scrollTop = chatBox.scrollHeight, 100);
         };
 
-        // Custom Premium Vedika Processing Logo
         const processingHTML = `<img src="https://i.ibb.co/tPCDFwYD/Blue-and-Black-Minimalist-Brand-Logo-20260426-113813-0000.png" style="width:18px; height:18px; border-radius:4px; vertical-align:middle; animation: logoPulse 1s infinite alternate; margin-right:6px;" alt="Vedika Logo"> Processing...`;
 
         async function sendMessage() {
@@ -386,11 +384,7 @@ Be concise. Do not address the user by name in demo mode.`;
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer sk-vedika' },
-                    body: JSON.stringify({ 
-                        messages: chatHistory, 
-                        temperature: 0.7, 
-                        stream: true 
-                    })
+                    body: JSON.stringify({ messages: chatHistory, temperature: 0.7, stream: true })
                 });
 
                 if (!response.ok) throw new Error("API Error");
@@ -437,7 +431,7 @@ Be concise. Do not address the user by name in demo mode.`;
             }
         }
 
-        // Image Interceptor Logic - Strictly Hides URL & Markdown from User
+        // URL Hidden Image Interceptor
         function renderLiveResponse(container, rawText) {
             const divider = "---FINAL_OUTPUT---";
             const splitIndex = rawText.lastIndexOf(divider);
@@ -465,7 +459,6 @@ Be concise. Do not address the user by name in demo mode.`;
             if (answerContent || splitIndex !== -1) {
                 let formattedAnswer = parseMD(answerContent || "Typing...");
                 
-                // Intercept logic for Pollinations (4 models randomized implicitly by parameters)
                 formattedAnswer = formattedAnswer.replace(/\[GENERATE_IMAGE:\s*(.*?)\]/g, (match, promptText) => {
                     const models = ['flux', 'flux-realism', 'flux-anime', 'flux-3d'];
                     const randomModel = models[Math.floor(Math.random() * models.length)];
