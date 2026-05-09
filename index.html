@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Welcome to Vedika AI Suite</title>
+    
+    <!-- Smart Memory Redirect: Executes instantly before page loads -->
+    <script>
+        if(localStorage.getItem('vedika_user_active') === 'true') {
+            window.location.replace("https://divypatel1232773-beep.github.io/We/");
+        }
+    </script>
+
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <style>
+        /* --- Premium Apple Light Glassmorphism Theme --- */
+        :root {
+            --bg-color: #E5E5EA;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.08);
+            --text-main: #111111;
+            --text-muted: #666666;
+            --accent-blue: #007AFF;
+            --accent-purple: #5856D6;
+            --font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            margin: 0; padding: 0; 
+            background-color: var(--bg-color); 
+            background-image: radial-gradient(circle at 50% -20%, #ffffff 0%, transparent 80%);
+            color: var(--text-main);
+            font-family: var(--font-stack); 
+            height: 100vh; 
+            display: flex; align-items: center; justify-content: center; 
+            overflow: hidden; 
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Ambient Light Background Animations */
+        .ambient-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 0; filter: blur(100px); pointer-events: none; }
+        .orb { position: absolute; border-radius: 50%; opacity: 0.6; animation: floatOrb 12s infinite alternate ease-in-out; }
+        .orb-1 { width: 450px; height: 450px; background: radial-gradient(circle, rgba(0, 122, 255, 0.4), transparent 70%); top: -15%; left: -10%; }
+        .orb-2 { width: 550px; height: 550px; background: radial-gradient(circle, rgba(88, 86, 214, 0.3), transparent 70%); bottom: -20%; right: -10%; animation-delay: -5s; animation-duration: 15s; }
+        .orb-3 { width: 350px; height: 350px; background: radial-gradient(circle, rgba(52, 199, 89, 0.3), transparent 70%); top: 40%; left: 30%; animation-delay: -2s; opacity: 0.5; }
+
+        @keyframes floatOrb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(80px, 80px) scale(1.15); } }
+
+        /* Main Container */
+        .app-container {
+            position: relative; z-index: 10; width: 90%; max-width: 680px;
+            height: 85vh; max-height: 850px; display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Views (Steps) */
+        .view-step {
+            position: absolute; width: 100%; background: var(--glass-bg); backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px); border: 1px solid var(--glass-border); border-radius: 32px;
+            padding: 40px 40px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.5);
+            opacity: 0; visibility: hidden; transform: translateY(40px) scale(0.95); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            box-sizing: border-box; display: flex; flex-direction: column; align-items: center; max-height: 100%; overflow-y: auto;
+        }
+        .view-step::-webkit-scrollbar { width: 4px; }
+        .view-step::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 10px; }
+
+        .view-step.active { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+        .view-step.exit { opacity: 0; visibility: hidden; transform: translateY(-40px) scale(0.95); }
+
+        /* Step 1: Welcome */
+        .brand-logo img { width: 85px; height: 85px; border-radius: 22px; background: #fff; padding: 4px; box-shadow: 0 15px 35px rgba(0, 122, 255, 0.2); animation: softPulse 4s infinite alternate ease-in-out; margin-bottom: 20px;}
+        @keyframes softPulse { 0% { transform: translateY(0); box-shadow: 0 15px 35px rgba(0, 122, 255, 0.2); } 100% { transform: translateY(-8px); box-shadow: 0 25px 45px rgba(88, 86, 214, 0.3); } }
+        
+        h1 { font-size: 2.6rem; margin: 0 0 16px 0; font-weight: 800; color: var(--text-main); letter-spacing: -1px; line-height: 1.1; }
+        p.description { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 35px; line-height: 1.6; }
+
+        /* Step 2: 6-Image Seamless Mosaic & Features */
+        .showcase-header { font-size: 1.8rem; margin-bottom: 15px; color: var(--text-main); font-weight: 800; }
+        
+        .feature-list { text-align: left; background: rgba(0, 122, 255, 0.05); border: 1px solid rgba(0, 122, 255, 0.1); padding: 15px 20px; border-radius: 16px; margin-bottom: 20px; width: 100%; box-sizing: border-box;}
+        .feature-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; font-size: 0.95rem; font-weight: 600; color: var(--text-main); line-height: 1.4;}
+        .feature-item:last-child { margin-bottom: 0; }
+        .feature-item i { color: var(--theme-color); font-size: 1.3rem; margin-top: 2px;}
+
+        /* Updated Mosaic: 6 Images (3 columns, 2 rows) */
+        .seamless-mosaic {
+            display: flex; flex-wrap: wrap; width: 100%; height: 220px;
+            border-radius: 16px; overflow: hidden; margin-bottom: 25px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .mosaic-img {
+            flex: 1 1 33.33%; 
+            height: 50%;      
+            object-fit: cover;
+            transition: transform 0.4s ease, filter 0.4s ease;
+            filter: grayscale(10%) brightness(0.95);
+        }
+        .mosaic-img:hover {
+            transform: scale(1.15); filter: grayscale(0%) brightness(1.1);
+            z-index: 5; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        /* Buttons row for Step 2 */
+        .action-row { display: flex; gap: 15px; width: 100%; justify-content: center; flex-wrap: wrap; }
+
+        /* Step 3: Big Popup Style Live Demo */
+        .demo-popup-container {
+            width: 100%; max-width: 600px; 
+            margin: 0 auto 20px auto;
+            background: #ffffff; border: 1px solid rgba(0,0,0,0.1); border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); display: flex; flex-direction: column;
+            overflow: hidden; text-align: left;
+        }
+        
+        .demo-header {
+            background: rgba(0, 122, 255, 0.05); padding: 12px 16px;
+            border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; gap: 10px;
+        }
+        .demo-header img { width: 30px; height: 30px; border-radius: 8px; }
+        .demo-header span { font-weight: 700; font-size: 0.95rem; color: var(--text-main); }
+        .demo-badge { margin-left: auto; background: var(--accent-blue); color: #fff; font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: bold; }
+
+        .chat-box { height: 350px; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 15px; background: #fafafa; }
+        .chat-box::-webkit-scrollbar { width: 6px; }
+        .chat-box::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 10px; }
+
+        .msg-bubble { max-width: 90%; padding: 12px 16px; border-radius: 16px; font-size: 0.95rem; line-height: 1.5; word-wrap: break-word;}
+        .bot-msg { background: #ffffff; color: var(--text-main); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
+        .user-msg { background: var(--accent-blue); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 5px 15px rgba(0,122,255,0.2);}
+
+        /* Reasoning Block inside bot message */
+        .reasoning { margin-bottom: 8px; border: 1px solid rgba(0,0,0,0.1); border-radius: 10px; background: #F8F8F8; }
+        .reasoning summary { padding: 8px 12px; font-size: 0.8rem; color: var(--text-muted); cursor: pointer; outline: none; user-select: none; font-weight: 700; background: rgba(0, 0, 0, 0.03); border-radius: 10px; display: flex; align-items: center; gap: 6px; }
+        .reasoning[open] summary { border-radius: 10px 10px 0 0; border-bottom: 1px solid rgba(0,0,0,0.1); color: var(--theme-color); }
+        .reasoning-content { padding: 10px; font-size: 0.8rem; color: #555; white-space: pre-wrap; }
+        .answer-content { margin-top: 5px; }
+
+        .input-area { display: flex; gap: 8px; padding: 14px; background: #ffffff; border-top: 1px solid rgba(0,0,0,0.05); }
+        .chat-input { flex: 1; padding: 12px 16px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.1); font-size: 0.95rem; outline: none; background: #f0f0f5; transition: 0.3s; }
+        .chat-input:focus { border-color: var(--accent-blue); background: #fff;}
+        .send-btn { background: var(--accent-blue); color: #fff; border: none; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
+        .send-btn:hover { background: #006ae6; transform: scale(1.05); }
+        .send-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+
+        /* Login Portal (Appears after 5 questions) */
+        .auth-container {
+            width: 100%; max-width: 600px; margin: 0 auto;
+            background: rgba(0, 122, 255, 0.05); border: 1px solid rgba(0, 122, 255, 0.2);
+            padding: 20px 20px; border-radius: 20px; box-sizing: border-box;
+            display: none; animation: slideUpFade 0.5s ease forwards;
+        }
+        @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Buttons & Links */
+        .btn-main {
+            display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+            background: var(--accent-blue); color: #ffffff; border: none; padding: 16px 30px; border-radius: 30px;
+            font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0, 122, 255, 0.3); text-decoration: none; flex: 1; min-width: 220px; box-sizing: border-box;
+        }
+        .btn-main i { font-size: 1.3rem; transition: transform 0.3s ease; }
+        .btn-main:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0, 122, 255, 0.4); background: #006ae6;}
+
+        .btn-outline { background: #ffffff; color: var(--text-main); border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .btn-outline:hover { background: #f8f8f8; box-shadow: 0 10px 25px rgba(0,0,0,0.1); color: var(--accent-blue);}
+
+        .legal-link {
+            display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none;
+            font-size: 0.85rem; font-weight: 500; transition: all 0.2s ease; padding: 8px 15px;
+            border-radius: 12px; background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); margin-top: 15px;
+        }
+        .legal-link:hover { color: #007AFF; background: #ffffff; border-color: rgba(0,0,0,0.1); box-shadow: 0 5px 15px rgba(0,0,0,0.05);}
+
+        /* Vedika Logo Pulse Animation for Processing */
+        @keyframes logoPulse { 0% { transform: scale(0.9); opacity: 0.7; } 50% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(0.9); opacity: 0.7; } }
+        
+        @media (max-width: 600px) {
+            .view-step { padding: 30px 20px; }
+            h1 { font-size: 2.2rem; }
+            .showcase-header { font-size: 1.5rem; }
+            .seamless-mosaic { height: 160px; }
+            .btn-main { padding: 15px 20px; font-size: 1rem; min-width: 100%; }
+            .chat-box { height: 280px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-background">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="app-container">
+        
+        <!-- STEP 1: WELCOME SCREEN -->
+        <div class="view-step active" id="step1">
+            <div class="brand-logo">
+                <img src="https://i.ibb.co/tPCDFwYD/Blue-and-Black-Minimalist-Brand-Logo-20260426-113813-0000.png" alt="Vedika AI Logo">
+            </div>
+            <h1>Vedika AI Suite</h1>
+            <p class="description">Experience the next generation of virtual intelligence. Unmatched multimodal capabilities designed for a brilliant future.</p>
+            
+            <!-- Smart Action: Saves to local storage before redirecting -->
+            <button class="btn-main" onclick="proceedToMainApp()" style="max-width: 300px;">
+                Proceed <i class="ph-bold ph-arrow-right"></i>
+            </button>
+            <br>
+            <a href="https://divypatel1232773-beep.github.io/Vedika-advanced-AI-terms-and-conditions-privacy-policy/" class="legal-link">
+                <i class="ph-bold ph-shield-check"></i> Terms & Privacy
+            </a>
+        </div>
+
+        <!-- STEP 2: 6-IMAGE MOSAIC, FEATURES & DUAL BUTTONS -->
+        <div class="view-step" id="step2">
+            <h1 class="showcase-header">Limitless Capabilities</h1>
+            
+            <div class="feature-list">
+                <div class="feature-item">
+                    <i class="ph-fill ph-image"></i>
+                    <span><strong>Meet the powerful image generation in seconds!</strong> Bring your imagination to life instantly.</span>
+                </div>
+                <div class="feature-item">
+                    <i class="ph-fill ph-file-search"></i>
+                    <span><strong>Universal Vision & Reading:</strong> Vedika can see, read, and process ANY file type effortlessly.</span>
+                </div>
+            </div>
+            
+            <div class="seamless-mosaic">
+                <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=400&q=80" class="mosaic-img" alt="Virtual 1">
+                <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=400&q=80" class="mosaic-img" alt="Virtual 2">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=400&q=80" class="mosaic-img" alt="Virtual 3">
+                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80" class="mosaic-img" alt="Virtual 4">
+                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80" class="mosaic-img" alt="Virtual 5">
+                <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=400&q=80" class="mosaic-img" alt="Virtual 6">
+            </div>
+
+            <!-- Action Row: Direct Login OR Demo Widget -->
+            <div class="action-row">
+                <button class="btn-main" onclick="proceedToMainApp()">
+                    Get Started <i class="ph-bold ph-rocket"></i>
+                </button>
+                <button class="btn-main btn-outline" onclick="goToStep(3)">
+                    Try Demo Widget <i class="ph-bold ph-chat-circle-text"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 3: BIG POPUP WIDGET DEMO & LOGIN -->
+        <div class="view-step" id="step3">
+            <h1 class="showcase-header" style="font-size:1.6rem; margin-bottom:10px;">Quick Preview</h1>
+            
+            <div class="demo-popup-container">
+                <div class="demo-header">
+                    <img src="https://i.ibb.co/tPCDFwYD/Blue-and-Black-Minimalist-Brand-Logo-20260426-113813-0000.png" alt="Vedika">
+                    <span>Vedika Assistant</span>
+                    <span class="demo-badge">Demo Mode</span>
+                    <span id="questionCounter" style="margin-left:auto; font-size:0.75rem; color:var(--text-muted); font-weight:bold;">0/5</span>
+                </div>
+                
+                <div class="chat-box" id="chatBox">
+                    <!-- Chat will load here from Local Storage -->
+                </div>
+                
+                <div class="input-area" id="inputArea">
+                    <input type="text" id="userInput" class="chat-input" placeholder="Type a message..." onkeypress="if(event.key==='Enter') sendMessage()">
+                    <button class="send-btn" id="sendBtn" onclick="sendMessage()"><i class="ph-bold ph-paper-plane-right"></i></button>
+                </div>
+            </div>
+
+            <div class="auth-container" id="finalLoginBox">
+                <div style="font-size: 1.05rem; font-weight: 800; color: var(--text-main); margin-bottom: 5px;">Demo Limit Reached</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Unlock all capabilities in your personalized workspace.</div>
+                
+                <button class="btn-main" onclick="proceedToMainApp()" style="margin: 0 auto; padding: 12px 30px; font-size: 0.95rem;">
+                    Login to get started <i class="ph-bold ph-sign-in"></i>
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // Core Logic: Proceed to Main App & Set Cache
+        function proceedToMainApp() {
+            localStorage.setItem('vedika_user_active', 'true');
+            window.location.href = "https://divypatel1232773-beep.github.io/We/";
+        }
+
+        // View Transitions
+        function goToStep(stepNumber) {
+            const currentStep = document.querySelector('.view-step.active');
+            if(currentStep) {
+                currentStep.classList.remove('active');
+                currentStep.classList.add('exit');
+            }
+            setTimeout(() => {
+                if(currentStep) currentStep.classList.remove('exit');
+                const nextStep = document.getElementById('step' + stepNumber);
+                if(nextStep) nextStep.classList.add('active');
+            }, 400); 
+        }
+
+        // Variables & Storage Recovery
+        const MAX_QUESTIONS = 5;
+        const API_URL = "https://mikeee-qwen-7b-chat.hf.space/v1/chat/completions";
+        let questionsAsked = parseInt(localStorage.getItem('vedika_demo_q_count') || '0');
+        let chatHistory = JSON.parse(localStorage.getItem('vedika_demo_api_history')) || [];
+
+        const baseSystemRule = `You must structure your response strictly in two parts:
+PART 1: Write your detailed internal reasoning first. NEVER quote, mention, or type the final divider inside this reasoning block.
+PART 2: When your reasoning is 100% complete, you MUST output the exact divider "---FINAL_OUTPUT---" on a new line, followed immediately by your final answer for the user.
+CRITICAL RULE FOR IMAGES: If the user asks you to generate, create, or draw an image, DO NOT write any URLs or markdown image links. Instead, simply write EXACTLY [GENERATE_IMAGE: <a highly detailed visual description in english>] inside your final answer.
+Be concise. Do not address the user by name in demo mode.`;
+
+        // Initialize Chat from Local Storage
+        window.onload = () => {
+            const chatBox = document.getElementById('chatBox');
+            chatBox.innerHTML = ''; 
+            
+            const welcomeText = "Hello! I am Vedika. How may I assist you today? You can ask me up to 5 questions or ask me to generate an image!";
+            chatBox.innerHTML += `<div class="msg-bubble bot-msg">${welcomeText}</div>`;
+
+            if (chatHistory.length === 0) {
+                chatHistory.push({ role: "system", content: baseSystemRule });
+            } else {
+                // Re-render past messages
+                chatHistory.forEach(msg => {
+                    if (msg.role === 'user') {
+                        chatBox.innerHTML += `<div class="msg-bubble user-msg">${msg.content}</div>`;
+                    } else if (msg.role === 'assistant') {
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'msg-bubble bot-msg';
+                        renderLiveResponse(wrapper, msg.content);
+                        chatBox.appendChild(wrapper);
+                    }
+                });
+            }
+
+            document.getElementById('questionCounter').innerText = `${questionsAsked}/${MAX_QUESTIONS}`;
+            if (questionsAsked >= MAX_QUESTIONS) {
+                document.getElementById('inputArea').style.display = 'none';
+                document.getElementById('finalLoginBox').style.display = 'block';
+            }
+            setTimeout(() => chatBox.scrollTop = chatBox.scrollHeight, 100);
+        };
+
+        // Custom Premium Vedika Processing Logo
+        const processingHTML = `<img src="https://i.ibb.co/tPCDFwYD/Blue-and-Black-Minimalist-Brand-Logo-20260426-113813-0000.png" style="width:18px; height:18px; border-radius:4px; vertical-align:middle; animation: logoPulse 1s infinite alternate; margin-right:6px;" alt="Vedika Logo"> Processing...`;
+
+        async function sendMessage() {
+            if (questionsAsked >= MAX_QUESTIONS) return;
+            
+            const input = document.getElementById('userInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const chatBox = document.getElementById('chatBox');
+            const sendBtn = document.getElementById('sendBtn');
+            const counterLabel = document.getElementById('questionCounter');
+            
+            chatBox.innerHTML += `<div class="msg-bubble user-msg">${text}</div>`;
+            chatHistory.push({ role: "user", content: text });
+            
+            input.value = '';
+            input.disabled = true;
+            sendBtn.disabled = true;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            questionsAsked++;
+            counterLabel.innerText = `${questionsAsked}/${MAX_QUESTIONS}`;
+            localStorage.setItem('vedika_demo_q_count', questionsAsked);
+
+            const botId = 'msg-' + Date.now();
+            chatBox.innerHTML += `<div class="msg-bubble bot-msg" id="${botId}">${processingHTML}</div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+            
+            const botBubble = document.getElementById(botId);
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer sk-vedika' },
+                    body: JSON.stringify({ 
+                        messages: chatHistory, 
+                        temperature: 0.7, 
+                        stream: true 
+                    })
+                });
+
+                if (!response.ok) throw new Error("API Error");
+
+                const reader = response.body.getReader(); 
+                const decoder = new TextDecoder("utf-8"); 
+                let fullContent = "";
+
+                while (true) {
+                    const { done, value } = await reader.read(); 
+                    if (done) break;
+                    
+                    let chunk = decoder.decode(value, { stream: true });
+                    let lines = chunk.split('\n');
+                    
+                    for (let line of lines) {
+                        line = line.trim();
+                        if (line.startsWith('data: ') && line !== 'data: [DONE]') {
+                            try {
+                                const data = JSON.parse(line.substring(6));
+                                fullContent += data.choices[0].delta.reasoning_content || data.choices[0].delta.content || "";
+                                renderLiveResponse(botBubble, fullContent);
+                                chatBox.scrollTop = chatBox.scrollHeight;
+                            } catch (e) {}
+                        }
+                    }
+                }
+                
+                chatHistory.push({ role: "assistant", content: fullContent });
+                localStorage.setItem('vedika_demo_api_history', JSON.stringify(chatHistory));
+
+            } catch (err) {
+                botBubble.innerHTML = "I experienced an error. Please try again or login to continue.";
+            } finally {
+                input.disabled = false;
+                sendBtn.disabled = false;
+                input.focus();
+                
+                if (questionsAsked >= MAX_QUESTIONS) {
+                    document.getElementById('inputArea').style.display = 'none';
+                    document.getElementById('finalLoginBox').style.display = 'block';
+                }
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        }
+
+        // Image Interceptor Logic - Strictly Hides URL & Markdown from User
+        function renderLiveResponse(container, rawText) {
+            const divider = "---FINAL_OUTPUT---";
+            const splitIndex = rawText.lastIndexOf(divider);
+            let thinkContent = "";
+            let answerContent = "";
+
+            if (splitIndex !== -1) {
+                thinkContent = rawText.substring(0, splitIndex).trim();
+                answerContent = rawText.substring(splitIndex + divider.length).trim();
+            } else {
+                thinkContent = rawText.trim();
+            }
+
+            const parseMD = (text) => typeof marked !== 'undefined' ? marked.parse(text) : text;
+
+            let html = '';
+            if (thinkContent) {
+                html += `
+                <details class="reasoning" ${splitIndex === -1 ? 'open' : ''}>
+                    <summary><i class="ph-bold ph-brain"></i> Internal Reasoning</summary>
+                    <div class="reasoning-content">${parseMD(thinkContent)}</div>
+                </details>`;
+            }
+
+            if (answerContent || splitIndex !== -1) {
+                let formattedAnswer = parseMD(answerContent || "Typing...");
+                
+                // Intercept logic for Pollinations (4 models randomized implicitly by parameters)
+                formattedAnswer = formattedAnswer.replace(/\[GENERATE_IMAGE:\s*(.*?)\]/g, (match, promptText) => {
+                    const models = ['flux', 'flux-realism', 'flux-anime', 'flux-3d'];
+                    const randomModel = models[Math.floor(Math.random() * models.length)];
+                    const encodedPrompt = encodeURIComponent(promptText.trim());
+                    
+                    return `<div style="text-align:center; margin-top:10px;">
+                                <img src="https://image.pollinations.ai/prompt/${encodedPrompt}?model=${randomModel}&nologo=true" style="width:100%; border-radius:12px; box-shadow:0 5px 15px rgba(0,0,0,0.1);" alt="Generated Art">
+                                <div style="font-size:0.75rem; color:#888; margin-top:5px;"><i class="ph-bold ph-magic-wand"></i> Generated via ${randomModel}</div>
+                            </div>`;
+                });
+
+                if (formattedAnswer.includes("[GENERATE_IMAGE") && !formattedAnswer.includes("]")) {
+                    formattedAnswer = formattedAnswer.split("[GENERATE_IMAGE")[0] + `<br><div style="font-size: 0.85rem; color: #007AFF; margin-top:5px;">${processingHTML.replace('Processing...', 'Generating Image...')}</div>`;
+                }
+
+                html += `<div class="answer-content">${formattedAnswer}</div>`;
+            }
+
+            container.innerHTML = html || processingHTML;
+        }
+    </script>
+
+</body>
+</html>
